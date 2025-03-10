@@ -1,3 +1,7 @@
-function CalculateDueDate() {}
+import { ArgumentReader } from "./argument-reader";
 
-CalculateDueDate();
+export function calculateDueDate() {
+  const argumentReader = new ArgumentReader();
+}
+
+calculateDueDate();
