@@ -66,5 +66,84 @@ describe("due-date", () => {
       const expectedDate = new Date("2025-03-11T09:00");
       expect(dueDate).toStrictEqual(expectedDate);
     });
+    it("15:35, turnaroundtime = 9 hours ==> +1 day +1 hour ", () => {
+      const submitDate = new Date("2025-03-10T15:35");
+      const turnaroundTimeHours = 9;
+      let dueDateCalculator = new DueDateCalculator(submitDate);
+
+      expect(dueDateCalculator).toBeInstanceOf(DueDateCalculator);
+      const dueDate = dueDateCalculator.addTurnaround(turnaroundTimeHours);
+      expect(dueDate).toBeInstanceOf(Date);
+      const expectedDate = new Date("2025-03-11T16:35");
+      expect(dueDate).toStrictEqual(expectedDate);
+    });
+    it("start of the day, turnaroundtime = 0.5 hours ", () => {
+      const submitDate = new Date("2025-03-10T09:00");
+      const turnaroundTimeHours = 0.5;
+      let dueDateCalculator = new DueDateCalculator(submitDate);
+
+      expect(dueDateCalculator).toBeInstanceOf(DueDateCalculator);
+      const dueDate = dueDateCalculator.addTurnaround(turnaroundTimeHours);
+      expect(dueDate).toBeInstanceOf(Date);
+      const expectedDate = new Date("2025-03-10T09:30");
+      expect(dueDate).toStrictEqual(expectedDate);
+    });
+
+    it("Midle of the week, turnaroundtime = 1 hours ", () => {
+      const submitDate = new Date("2025-03-13T09:00");
+      const turnaroundTimeHours = 1;
+      let dueDateCalculator = new DueDateCalculator(submitDate);
+
+      expect(dueDateCalculator).toBeInstanceOf(DueDateCalculator);
+      const dueDate = dueDateCalculator.addTurnaround(turnaroundTimeHours);
+      expect(dueDate).toBeInstanceOf(Date);
+      const expectedDate = new Date("2025-03-13T10:00");
+      expect(dueDate).toStrictEqual(expectedDate);
+    });
+    it("Next week, turnaroundTime = 40 hours", () => {
+      const submitDate = new Date("2025-03-10T09:00");
+      const turnaroundTimeHours = 40;
+      let dueDateCalculator = new DueDateCalculator(submitDate);
+
+      expect(dueDateCalculator).toBeInstanceOf(DueDateCalculator);
+      const dueDate = dueDateCalculator.addTurnaround(turnaroundTimeHours);
+      expect(dueDate).toBeInstanceOf(Date);
+      const expectedDate = new Date("2025-03-17T09:00");
+      expect(dueDate).toStrictEqual(expectedDate);
+    });
+
+    it("Next week, midle of the week,  turnaroundTime = 45 hours", () => {
+      const submitDate = new Date("2025-03-11T10:00");
+      const turnaroundTimeHours = 45;
+      let dueDateCalculator = new DueDateCalculator(submitDate);
+
+      expect(dueDateCalculator).toBeInstanceOf(DueDateCalculator);
+      const dueDate = dueDateCalculator.addTurnaround(turnaroundTimeHours);
+      expect(dueDate).toBeInstanceOf(Date);
+      const expectedDate = new Date("2025-03-18T15:00");
+      expect(dueDate).toStrictEqual(expectedDate);
+    });
+    it("End of the day, midle of the week,  turnaroundTime = 1 hours", () => {
+      const submitDate = new Date("2025-03-11T16:30");
+      const turnaroundTimeHours = 1;
+      let dueDateCalculator = new DueDateCalculator(submitDate);
+
+      expect(dueDateCalculator).toBeInstanceOf(DueDateCalculator);
+      const dueDate = dueDateCalculator.addTurnaround(turnaroundTimeHours);
+      expect(dueDate).toBeInstanceOf(Date);
+      const expectedDate = new Date("2025-03-12T09:30");
+      expect(dueDate).toStrictEqual(expectedDate);
+    });
+    it("End of the day, end of the week,  turnaroundTime = 1 hours", () => {
+      const submitDate = new Date("2025-03-14T16:30");
+      const turnaroundTimeHours = 1;
+      let dueDateCalculator = new DueDateCalculator(submitDate);
+
+      expect(dueDateCalculator).toBeInstanceOf(DueDateCalculator);
+      const dueDate = dueDateCalculator.addTurnaround(turnaroundTimeHours);
+      expect(dueDate).toBeInstanceOf(Date);
+      const expectedDate = new Date("2025-03-17T09:30");
+      expect(dueDate).toStrictEqual(expectedDate);
+    });
   });
 });

@@ -15,24 +15,49 @@ export class DueDateCalculator {
     console.log("date:", date);
     return date;
   }
-  private initDueStartOfDay() {
-    const dueDateStartOfDay = new Date(this.submitDate);
-    dueDateStartOfDay.setHours(this.workStart);
-    dueDateStartOfDay.setMinutes(this.workStartMinute);
-    return dueDateStartOfDay;
+  private getDaySinceMonday(): number {
+    // This can be a litle tricky if the start day is not monday, because the getDay() is from sunday to saturday, and its a 0-6 number.
+    const monday = 1;
+    const daySinceMonday = this.submitDate.getDay() - monday;
+    return daySinceMonday;
   }
+
+  private initDueStartOfWeek(): Date {
+    const daySinceMonday = this.getDaySinceMonday();
+    const dueDateStartOfWeek = this.addHours(
+      this.submitDate,
+      -1 * (24 * daySinceMonday)
+    );
+    dueDateStartOfWeek.setHours(this.workStart);
+    dueDateStartOfWeek.setMinutes(this.workStartMinute);
+
+    return dueDateStartOfWeek;
+  }
+
   public addTurnaround(turnaroundHours: number): Date {
     const actualHour =
       this.submitDate.getHours() + this.submitDate.getMinutes() / 60;
-    // We know, that the submitDate's hour is valid.
+    // We know, that the submitDate's hour is valid workday hour. We can calculate how many hour passed, since the start of the day.
+
     const hoursFromTheStartOfTheDay = actualHour - this.workStart;
+    const daysFromTheStartOfTheWeek = this.getDaySinceMonday();
+
     const turnaroundHoursFromTheStartOfTheDay =
-      turnaroundHours + hoursFromTheStartOfTheDay;
-    const dueDateStartOfDay = this.initDueStartOfDay();
-    const workingHours = turnaroundHoursFromTheStartOfTheDay % 8;
-    const workingDays = Math.floor(turnaroundHoursFromTheStartOfTheDay / 8);
-    const actualTimeInHours = workingHours + workingDays * 24;
-    const dueDate = this.addHours(dueDateStartOfDay, actualTimeInHours);
+      turnaroundHours +
+      hoursFromTheStartOfTheDay +
+      8 * daysFromTheStartOfTheWeek; //8 because its working hour, not real hour
+
+    const dueDateStartOfWeek = this.initDueStartOfWeek();
+
+    // We calculate, from the start of the day, how many hours and how many day will pass.
+    const workHours = turnaroundHoursFromTheStartOfTheDay % 8;
+    const workDays = Math.floor(turnaroundHoursFromTheStartOfTheDay / 8);
+    const workWeeks = Math.floor(workDays / 5);
+    const leftWorkDays = workDays % 5;
+
+    const actualTimeInHours =
+      workHours + leftWorkDays * 24 + workWeeks * 24 * 7;
+    const dueDate = this.addHours(dueDateStartOfWeek, actualTimeInHours);
 
     return dueDate;
   }
