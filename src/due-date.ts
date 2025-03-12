@@ -1,6 +1,6 @@
 export class DueDateCalculator {
   private submitDate: Date;
-  private workStart = 9;
+  private workStartHours = 9;
   private workStartMinute = 0;
   constructor(submitDate: Date) {
     if (isNaN(submitDate.valueOf()))
@@ -28,7 +28,7 @@ export class DueDateCalculator {
       this.submitDate,
       -1 * (24 * daySinceMonday)
     );
-    dueDateStartOfWeek.setHours(this.workStart);
+    dueDateStartOfWeek.setHours(this.workStartHours);
     dueDateStartOfWeek.setMinutes(this.workStartMinute);
 
     return dueDateStartOfWeek;
@@ -39,7 +39,8 @@ export class DueDateCalculator {
       this.submitDate.getHours() + this.submitDate.getMinutes() / 60;
     // We know, that the submitDate's hour is valid workday hour. We can calculate how many hour passed, since the start of the day.
 
-    const hoursFromTheStartOfTheDay = actualHour - this.workStart;
+    // We should have been calculate with the workStartMinute as well, but in this case, it's zero, so we can left it out.
+    const hoursFromTheStartOfTheDay = actualHour - this.workStartHours;
     const daysFromTheStartOfTheWeek = this.getDaySinceMonday();
 
     const turnaroundHoursFromTheStartOfTheDay =

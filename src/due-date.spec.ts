@@ -145,5 +145,27 @@ describe("due-date", () => {
       const expectedDate = new Date("2025-03-17T09:30");
       expect(dueDate).toStrictEqual(expectedDate);
     });
+    it("Middle of the week, end of the day, turnaroundTime = 1 week 2 day and 2 hours (which cause to bump to 3 day) = 58 hour ", () => {
+      const submitDate = new Date("2025-03-11T16:30");
+      const turnaroundTimeHours = 58;
+      let dueDateCalculator = new DueDateCalculator(submitDate);
+
+      expect(dueDateCalculator).toBeInstanceOf(DueDateCalculator);
+      const dueDate = dueDateCalculator.addTurnaround(turnaroundTimeHours);
+      expect(dueDate).toBeInstanceOf(Date);
+      const expectedDate = new Date("2025-03-21T10:30");
+      expect(dueDate).toStrictEqual(expectedDate);
+    });
+    it("Half turnaround time, turnaround time 30 minutes ", () => {
+      const submitDate = new Date("2025-03-11T16:29");
+      const turnaroundTimeHours = 0.5;
+      let dueDateCalculator = new DueDateCalculator(submitDate);
+
+      expect(dueDateCalculator).toBeInstanceOf(DueDateCalculator);
+      const dueDate = dueDateCalculator.addTurnaround(turnaroundTimeHours);
+      expect(dueDate).toBeInstanceOf(Date);
+      const expectedDate = new Date("2025-03-11T16:59");
+      expect(dueDate).toStrictEqual(expectedDate);
+    });
   });
 });
