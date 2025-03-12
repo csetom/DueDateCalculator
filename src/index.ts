@@ -7,7 +7,7 @@ export function calculateDueDate() {
   const turnaroundHours = argumentReader.getTurnaroundTimeHours();
   const dueDateCalculator = new DueDateCalculator(submitDate);
   const dueDate = dueDateCalculator.addTurnaround(turnaroundHours);
-  console.log(dueDate);
+  console.log(dueDate.toLocaleString("hu-HU", { timeZone: "CET" }));
 }
 
 calculateDueDate();
