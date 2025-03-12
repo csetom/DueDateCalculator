@@ -7,12 +7,9 @@ export class DueDateCalculator {
       throw new Error("SubmitDate is not a valide Date");
     // Here we could also check if it is a valide work day and time.
     this.submitDate = submitDate;
-    console.log(submitDate);
   }
   private addHours(date: Date, hours: number) {
-    console.log("date:", date, "hours", hours);
     date.setTime(date.getTime() + hours * 60 * 60 * 1000);
-    console.log("date:", date);
     return date;
   }
   private getDaySinceMonday(): number {

@@ -7,7 +7,6 @@ export class ArgumentReader {
   constructor() {
     this.dateString = argv[2];
     this.hourString = argv[3];
-    console.log("argv", argv);
   }
   public getSubmitDate(): Date {
     const submitDate = new Date(this.dateString);
