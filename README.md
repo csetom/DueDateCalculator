@@ -46,10 +46,6 @@ $ node index.js 2025-03-10T09:00 9
 $ 2025. 03. 11. 10:00:00
 ```
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
 ## Contributing
 
 If you'd like to contribute, please fork the repository and submit a pull request with your proposed changes.
