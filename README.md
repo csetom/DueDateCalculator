@@ -13,13 +13,13 @@ This project is a simple Due Date Calculator that computes the due date based on
 1. Clone the repository:
 
    ```bash
-   git clone [https://github.com/csetom/DueDateCalculator]
+   git clone https://github.com/csetom/DueDateCalculator
    ```
 
 2. Navigate to the project directory:
 
    ```bash
-   cd [DueDateCalculator]
+   cd DueDateCalculator
    ```
 
 3. Install the dependencies (if any):
