@@ -1,7 +1,13 @@
 export class DueDateCalculator {
   private submitDate: Date;
+
+  //We could put these in a config file.
   private workStartHours = 9;
   private workStartMinute = 0;
+
+  private workHoursADay = 8;
+  private workDaysAWeek = 5;
+
   constructor(submitDate: Date) {
     if (isNaN(submitDate.valueOf()))
       throw new Error("SubmitDate is not a valide Date");
@@ -48,10 +54,13 @@ export class DueDateCalculator {
     const dueDateStartOfWeek = this.initDueStartOfWeek();
 
     // We calculate, from the start of the day, how many hours and how many day will pass.
-    const workHours = turnaroundHoursFromTheStartOfTheDay % 8;
-    const workDays = Math.floor(turnaroundHoursFromTheStartOfTheDay / 8);
-    const workWeeks = Math.floor(workDays / 5);
-    const leftWorkDays = workDays % 5;
+
+    const workHours = turnaroundHoursFromTheStartOfTheDay % this.workHoursADay;
+    const workDays = Math.floor(
+      turnaroundHoursFromTheStartOfTheDay / this.workHoursADay
+    );
+    const workWeeks = Math.floor(workDays / this.workDaysAWeek);
+    const leftWorkDays = workDays % this.workDaysAWeek;
 
     const actualTimeInHours =
       workHours + leftWorkDays * 24 + workWeeks * 24 * 7;
